@@ -285,7 +285,9 @@ namespace PlayerCustomInput
 
         private void CheckForInteractable()
         {
+            
             currentInteractable = null; // 항상 초기화
+            
 
             if (Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward,
                 out RaycastHit hit, interactRange, interactLayers))
@@ -301,7 +303,9 @@ namespace PlayerCustomInput
 
         private void HandleInteraction()
         {
-            if (_input.interact)
+            
+
+            if (_input.interact && _input.interactUnLocked)
             {
                 if (currentInteractable != null)
                 {

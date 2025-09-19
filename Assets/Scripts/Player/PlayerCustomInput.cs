@@ -20,6 +20,7 @@ namespace PlayerCustomInput
 
         [Header("Interaction")]
         public bool interact;
+        public bool interactUnLocked = true;
 
 #if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value) => MoveInput(value.Get<Vector2>());
@@ -29,7 +30,10 @@ namespace PlayerCustomInput
         }
         public void OnJump(InputValue value) => JumpInput(value.isPressed);
         public void OnSprint(InputValue value) => SprintInput(value.isPressed);
-        public void OnInteract(InputValue value) => InteractInput(value.isPressed);
+        public void OnInteract(InputValue value)
+        {
+            if (interactUnLocked) InteractInput(value.isPressed);
+        }
 #endif
 
         public void MoveInput(Vector2 newMoveDirection) => move = newMoveDirection;
@@ -49,6 +53,11 @@ namespace PlayerCustomInput
             cursorLocked = enable;
             SetCursorState(enable);
             Cursor.visible = !enable; // enable=true ¡æ ¸¶¿ì½º ¼û±è, enable=false ¡æ ¸¶¿ì½º º¸ÀÓ
+        }
+
+        public void SetInteractState(bool state)
+        {
+            interactUnLocked = state;
         }
 
         private void SetCursorState(bool newState)

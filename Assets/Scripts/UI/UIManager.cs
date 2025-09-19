@@ -29,7 +29,11 @@ public class UIManager : MonoBehaviour
         activeInteractionUI.Show(message);
 
         if (playerInput != null)
+        {
+            playerInput.look = Vector2.zero;
+            playerInput.SetInteractState(false);
             playerInput.EnableLook(false); // 마우스 보이고, 카메라 회전 막기
+        }
     }
 
     public void HideInteractionActive()
@@ -37,7 +41,10 @@ public class UIManager : MonoBehaviour
         activeInteractionUI.Hide();
 
         if (playerInput != null)
+        {
+            playerInput.SetInteractState(true);
             playerInput.EnableLook(true); // 마우스 다시 숨기고, 카메라 회전 복구
+        }
     }
 
 
