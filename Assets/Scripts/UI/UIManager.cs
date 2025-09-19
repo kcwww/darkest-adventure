@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     // 플레이어 입력 참조 (Inspector에서 PlayerCustomInput 연결)
     [SerializeField] private PlayerCustomInput.PlayerCustomInput playerInput;
 
+    public bool isWatching = false;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -25,6 +27,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowInteractionActive(string message)
     {
+        isWatching = true;
+
         interactionUI.Hide();
         activeInteractionUI.Show(message);
 
@@ -38,6 +42,8 @@ public class UIManager : MonoBehaviour
 
     public void HideInteractionActive()
     {
+        isWatching = false;
+
         activeInteractionUI.Hide();
 
         if (playerInput != null)
