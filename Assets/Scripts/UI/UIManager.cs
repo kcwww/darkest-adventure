@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
@@ -7,6 +7,9 @@ public class UIManager : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private InteractionUI interactionUI;
     [SerializeField] private ActiveInteractionUI activeInteractionUI;
+
+    // 플레이어 입력 참조 (Inspector에서 PlayerCustomInput 연결)
+    [SerializeField] private PlayerCustomInput.PlayerCustomInput playerInput;
 
     void Awake()
     {
@@ -21,8 +24,21 @@ public class UIManager : MonoBehaviour
         => interactionUI.Hide();
 
     public void ShowInteractionActive(string message)
-        => activeInteractionUI.Show(message);
+    {
+        interactionUI.Hide();
+        activeInteractionUI.Show(message);
+
+        if (playerInput != null)
+            playerInput.EnableLook(false); // 마우스 보이고, 카메라 회전 막기
+    }
 
     public void HideInteractionActive()
-        => activeInteractionUI.Hide();
+    {
+        activeInteractionUI.Hide();
+
+        if (playerInput != null)
+            playerInput.EnableLook(true); // 마우스 다시 숨기고, 카메라 회전 복구
+    }
+
+
 }

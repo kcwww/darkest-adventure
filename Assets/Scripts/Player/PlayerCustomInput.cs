@@ -1,7 +1,5 @@
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-#endif
 
 namespace PlayerCustomInput
 {
@@ -24,64 +22,33 @@ namespace PlayerCustomInput
         public bool interact;
 
 #if ENABLE_INPUT_SYSTEM
-        public void OnMove(InputValue value)
-        {
-            MoveInput(value.Get<Vector2>());
-        }
-
+        public void OnMove(InputValue value) => MoveInput(value.Get<Vector2>());
         public void OnLook(InputValue value)
         {
-            if (cursorInputForLook)
-            {
-                LookInput(value.Get<Vector2>());
-            }
+            if (cursorInputForLook) LookInput(value.Get<Vector2>());
         }
-
-        public void OnJump(InputValue value)
-        {
-            JumpInput(value.isPressed);
-        }
-
-        public void OnSprint(InputValue value)
-        {
-            SprintInput(value.isPressed);
-        }
-
-        public void OnInteract(InputValue value)
-        {
-            InteractInput(value.isPressed);
-        }
+        public void OnJump(InputValue value) => JumpInput(value.isPressed);
+        public void OnSprint(InputValue value) => SprintInput(value.isPressed);
+        public void OnInteract(InputValue value) => InteractInput(value.isPressed);
 #endif
 
+        public void MoveInput(Vector2 newMoveDirection) => move = newMoveDirection;
+        public void LookInput(Vector2 newLookDirection) => look = newLookDirection;
+        public void JumpInput(bool newJumpState) => jump = newJumpState;
+        public void SprintInput(bool newSprintState) => sprint = newSprintState;
+        public void InteractInput(bool newInteractState) => interact = newInteractState;
 
-        public void MoveInput(Vector2 newMoveDirection)
-        {
-            move = newMoveDirection;
-        }
+        private void OnApplicationFocus(bool hasFocus) => SetCursorState(cursorLocked);
 
-        public void LookInput(Vector2 newLookDirection)
+        /// <summary>
+        /// 커서와 카메라 회전 입력을 동시에 제어하는 함수
+        /// </summary>
+        public void EnableLook(bool enable)
         {
-            look = newLookDirection;
-        }
-
-        public void JumpInput(bool newJumpState)
-        {
-            jump = newJumpState;
-        }
-
-        public void SprintInput(bool newSprintState)
-        {
-            sprint = newSprintState;
-        }
-
-        public void InteractInput(bool newInteractState)
-        {
-            interact = newInteractState;
-        }
-
-        private void OnApplicationFocus(bool hasFocus)
-        {
-            SetCursorState(cursorLocked);
+            cursorInputForLook = enable;
+            cursorLocked = enable;
+            SetCursorState(enable);
+            Cursor.visible = !enable; // enable=true → 마우스 숨김, enable=false → 마우스 보임
         }
 
         private void SetCursorState(bool newState)
@@ -89,5 +56,4 @@ namespace PlayerCustomInput
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
         }
     }
-
 }

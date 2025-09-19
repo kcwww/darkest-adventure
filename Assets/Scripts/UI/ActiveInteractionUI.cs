@@ -10,6 +10,7 @@ public class ActiveInteractionUI : MonoBehaviour
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private Vector2 defaultPos;
+    private Coroutine coroutine;
 
     void Awake()
     {
@@ -34,7 +35,7 @@ public class ActiveInteractionUI : MonoBehaviour
     {
         panel.SetActive(true);
         StopAllCoroutines();
-        StartCoroutine(AnimateShow());
+        coroutine = StartCoroutine(AnimateShow());
     }
 
     IEnumerator AnimateShow()
@@ -67,7 +68,11 @@ public class ActiveInteractionUI : MonoBehaviour
 
     public void Hide()
     {
-        StopAllCoroutines();
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
         StartCoroutine(AnimateHide());
     }
 

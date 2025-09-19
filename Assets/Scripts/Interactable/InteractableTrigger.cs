@@ -58,6 +58,7 @@ public class InteractableTrigger : MonoBehaviour
 
             case ZoneType.UI:
                 UIManager.Instance.HideInteraction();
+                UIManager.Instance.HideInteractionActive();
                 break;
         }
     }
