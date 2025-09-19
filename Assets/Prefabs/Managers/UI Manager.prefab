@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4017134908750266409}
   - component: {fileID: 4542797380604993496}
   - component: {fileID: 5866538997721273062}
+  - component: {fileID: 3613720550932781862}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionUI: {fileID: 5866538997721273062}
   activeInteractionUI: {fileID: 4542797380604993496}
+  playerInput: {fileID: 0}
 --- !u!114 &4542797380604993496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 0}
   appearDuration: 0.4
-  yOffset: -30
+  slideOffset: 30
 --- !u!114 &5866538997721273062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,3 +82,20 @@ MonoBehaviour:
   worldOffset: {x: -0.5, y: 0.5, z: 0}
   appearSpeed: 8
   yOffset: -30
+--- !u!114 &3613720550932781862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184966636702252819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329d4cadb3addfe4595e494a6201fdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshProUGUIs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
