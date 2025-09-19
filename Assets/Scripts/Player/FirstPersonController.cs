@@ -53,6 +53,20 @@ namespace PlayerCustomInput
         [Tooltip("How far in degrees can you move the camera down")]
         public float BottomClamp = -90.0f;
 
+        [Header("Head Bobbing")]
+        [Tooltip("Enable/Disable head bobbing")]
+        public bool enableHeadBob = true;
+        [Tooltip("Head bobbing intensity for walking")]
+        public float walkBobStrength = 0.05f;
+        [Tooltip("Head bobbing speed for walking")]
+        public float walkBobSpeed = 8f;
+        [Tooltip("Head bobbing intensity for sprinting")]
+        public float sprintBobStrength = 0.08f;
+        [Tooltip("Head bobbing speed for sprinting")]
+        public float sprintBobSpeed = 18f;
+        [Tooltip("How smoothly the head bobbing transitions")]
+        public float bobSmoothTime = 0.1f;
+
         [Header("Interact")]
         [Tooltip("How far in distance can you interact the object")]
         public float interactRange = 3.0f;
@@ -74,6 +88,14 @@ namespace PlayerCustomInput
         // interact object
         private IInteractable currentInteractable;
 
+        // head bobbing variables
+        private float _bobTimer = 0f;
+        private Vector3 _originalCameraPosition;
+        private float _currentBobStrength;
+        private float _currentBobSpeed;
+        private Vector3 _targetBobPosition;
+        private Vector3 _currentBobPosition;
+        private Vector3 _bobVelocity;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -117,6 +139,12 @@ namespace PlayerCustomInput
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            // Initialize head bobbing
+            if (CinemachineCameraTarget != null)
+            {
+                _originalCameraPosition = CinemachineCameraTarget.transform.localPosition;
+            }
         }
 
         private void Update()
@@ -124,6 +152,7 @@ namespace PlayerCustomInput
             JumpAndGravity();
             GroundedCheck();
             Move();
+            HandleHeadBobbing();
 
             CheckForInteractable();
             HandleInteraction();
@@ -210,6 +239,46 @@ namespace PlayerCustomInput
             _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
         }
 
+        private void HandleHeadBobbing()
+        {
+            if (!enableHeadBob || CinemachineCameraTarget == null)
+                return;
+
+            // Check if player is moving and grounded
+            bool isMoving = _input.move != Vector2.zero && Grounded;
+            bool isSprinting = _input.sprint && isMoving;
+
+            if (isMoving)
+            {
+                // Set bobbing parameters based on movement type
+                _currentBobStrength = isSprinting ? sprintBobStrength : walkBobStrength;
+                _currentBobSpeed = isSprinting ? sprintBobSpeed : walkBobSpeed;
+
+                // Increment bob timer
+                _bobTimer += Time.deltaTime * _currentBobSpeed;
+
+                // Calculate target bob position using sine waves for natural movement
+                float yOffset = Mathf.Sin(_bobTimer) * _currentBobStrength;
+                float xOffset = Mathf.Sin(_bobTimer * 0.5f) * (_currentBobStrength * 0.5f); // Slight horizontal sway
+
+                _targetBobPosition = _originalCameraPosition + new Vector3(xOffset, yOffset, 0);
+            }
+            else
+            {
+                // Return to original position when not moving
+                _targetBobPosition = _originalCameraPosition;
+
+                // Gradually reset bob timer
+                _bobTimer = Mathf.Lerp(_bobTimer, 0f, Time.deltaTime * 2f);
+            }
+
+            // Smoothly interpolate to target position
+            _currentBobPosition = Vector3.SmoothDamp(_currentBobPosition, _targetBobPosition, ref _bobVelocity, bobSmoothTime);
+
+            // Apply the bobbing position
+            CinemachineCameraTarget.transform.localPosition = _currentBobPosition;
+        }
+
         private void JumpAndGravity()
         {
             if (Grounded)
@@ -285,9 +354,9 @@ namespace PlayerCustomInput
 
         private void CheckForInteractable()
         {
-            
+
             currentInteractable = null; // 항상 초기화
-            
+
 
             if (Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward,
                 out RaycastHit hit, interactRange, interactLayers))
@@ -300,10 +369,9 @@ namespace PlayerCustomInput
             }
         }
 
-
         private void HandleInteraction()
         {
-            
+
 
             if (_input.interact && _input.interactUnLocked)
             {
@@ -319,8 +387,5 @@ namespace PlayerCustomInput
                 _input.interact = false; // 항상 리셋
             }
         }
-
-
-
     }
 }

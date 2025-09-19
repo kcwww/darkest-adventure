@@ -93,6 +93,12 @@ MonoBehaviour:
   CinemachineCameraTarget: {fileID: 8298708968586263865}
   TopClamp: 89
   BottomClamp: -89
+  enableHeadBob: 1
+  walkBobStrength: 0.05
+  walkBobSpeed: 8
+  sprintBobStrength: 0.08
+  sprintBobSpeed: 18
+  bobSmoothTime: 0.1
   interactRange: 2
   interactLayers:
     serializedVersion: 2
@@ -134,6 +140,7 @@ MonoBehaviour:
   cursorLocked: 1
   cursorInputForLook: 1
   interact: 0
+  interactUnLocked: 1
 --- !u!114 &7871170787909935626
 MonoBehaviour:
   m_ObjectHideFlags: 0
