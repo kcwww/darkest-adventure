@@ -33,7 +33,6 @@ namespace PlayerCustomInput
         {
             if (cursorInputForLook)
             {
-                Debug.Log(value.Get<Vector2>());
                 LookInput(value.Get<Vector2>());
             }
         }
@@ -75,7 +74,7 @@ namespace PlayerCustomInput
             sprint = newSprintState;
         }
 
-        public void InteractInput (bool newInteractState)
+        public void InteractInput(bool newInteractState)
         {
             interact = newInteractState;
         }

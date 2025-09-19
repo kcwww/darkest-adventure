@@ -44,12 +44,19 @@ namespace PlayerCustomInput
         public LayerMask GroundLayers;
 
         [Header("Cinemachine")]
+        public GameObject _mainCamera;
+
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
         public GameObject CinemachineCameraTarget;
         [Tooltip("How far in degrees can you move the camera up")]
         public float TopClamp = 90.0f;
         [Tooltip("How far in degrees can you move the camera down")]
         public float BottomClamp = -90.0f;
+
+        [Header("Interact")]
+        [Tooltip("How far in distance can you interact the object")]
+        public float interactRange = 3.0f;
+        public LayerMask interactLayers;
 
         // cinemachine
         private float _cinemachineTargetPitch;
@@ -64,13 +71,15 @@ namespace PlayerCustomInput
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
+        // interact object
+        private IInteractable currentInteractable;
+
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
 #endif
         private CharacterController _controller;
         private PlayerCustomInput _input;
-        private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
 
@@ -115,6 +124,9 @@ namespace PlayerCustomInput
             JumpAndGravity();
             GroundedCheck();
             Move();
+
+            CheckForInteractable();
+            HandleInteraction();
         }
 
         private void LateUpdate()
@@ -134,7 +146,6 @@ namespace PlayerCustomInput
             // if there is an input
             if (_input.look.sqrMagnitude >= _threshold)
             {
-                Debug.Log($"Look Input: {_input.look.y}, Delta Time: {Time.deltaTime}, Is Mouse: {IsCurrentDeviceMouse}");
                 //Don't multiply mouse input by Time.deltaTime
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
@@ -264,6 +275,48 @@ namespace PlayerCustomInput
 
             // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+
+            // raycast
+            Vector3 origin = _mainCamera.transform.position;
+            Vector3 direction = _mainCamera.transform.forward;
+
+            Gizmos.DrawLine(origin, origin + direction * interactRange);
         }
+
+        private void CheckForInteractable()
+        {
+            currentInteractable = null; // 항상 초기화
+
+            if (Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward,
+                out RaycastHit hit, interactRange, interactLayers))
+            {
+                var interactable = hit.collider.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    currentInteractable = interactable;
+                }
+            }
+        }
+
+
+        private void HandleInteraction()
+        {
+            if (_input.interact)
+            {
+                if (currentInteractable != null)
+                {
+                    currentInteractable.Interact(gameObject);
+                }
+                else
+                {
+                    Debug.Log("No interactable in range or view.");
+                }
+
+                _input.interact = false; // 항상 리셋
+            }
+        }
+
+
+
     }
 }
