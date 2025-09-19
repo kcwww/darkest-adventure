@@ -23,7 +23,13 @@ namespace PlayerCustomInput
         public bool interactUnLocked = true;
 
 #if ENABLE_INPUT_SYSTEM
-        public void OnMove(InputValue value) => MoveInput(value.Get<Vector2>());
+        public void OnMove(InputValue value)
+        {
+            if (UIManager.Instance != null && !UIManager.Instance.isWatching)
+            {
+                MoveInput(value.Get<Vector2>());
+            }
+        }
         public void OnLook(InputValue value)
         {
             if (cursorInputForLook) LookInput(value.Get<Vector2>());

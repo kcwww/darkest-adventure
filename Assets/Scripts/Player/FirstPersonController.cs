@@ -81,6 +81,8 @@ namespace PlayerCustomInput
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
 
+        float sensitivityMultiplier = GameManager.Instance.sensitivity * 0.2f;
+
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
@@ -178,8 +180,8 @@ namespace PlayerCustomInput
                 //Don't multiply mouse input by Time.deltaTime
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
-                _rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
+                _cinemachineTargetPitch += _input.look.y * RotationSpeed * sensitivityMultiplier * deltaTimeMultiplier;
+                _rotationVelocity = _input.look.x * RotationSpeed * sensitivityMultiplier * deltaTimeMultiplier;
 
                 // clamp our pitch rotation
                 _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
