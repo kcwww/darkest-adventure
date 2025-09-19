@@ -32,7 +32,7 @@ public class MouseSensitivitySlider : MonoBehaviour
         if (sensitivitySlider != null)
         {
             float newValue = sensitivitySlider.value;
-            Debug.Log(newValue);
+            
             textMeshProUGUI.text = newValue.ToString();
             GameManager.Instance.SliderValueChanged(newValue);
         }

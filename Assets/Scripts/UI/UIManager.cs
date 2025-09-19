@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
         if (playerInput != null)
         {
             playerInput.look = Vector2.zero;
+            playerInput.move = Vector2.zero;
             playerInput.SetInteractState(false);
             playerInput.EnableLook(false); // 마우스 보이고, 카메라 회전 막기
         }

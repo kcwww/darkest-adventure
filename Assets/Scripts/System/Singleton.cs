@@ -14,7 +14,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
                 if (instance == null)
                 {
-                    GameObject obj = new GameObject(typeof(T).Name, typeof(T));
+                    GameObject obj = new GameObject(typeof(T).Name);
                     instance = obj.AddComponent<T>();
                 }
             }
@@ -22,15 +22,18 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        if (transform.parent != null && transform.root != null)
+        // 이미 인스턴스가 존재한다면 자신을 삭제
+        if (instance != null && instance != this)
         {
-            DontDestroyOnLoad(this.transform.root.gameObject);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
+
+        // 최초 인스턴스라면 할당
+        instance = this as T;
+
+        DontDestroyOnLoad(gameObject);
     }
 }

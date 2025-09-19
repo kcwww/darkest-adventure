@@ -22,6 +22,15 @@ public class StartUI : MonoBehaviour
 
     public void StartScene()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        // 에디터에서 플레이 모드 종료
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

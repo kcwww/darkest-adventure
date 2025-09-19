@@ -53,6 +53,9 @@ namespace PlayerCustomInput
         [Tooltip("How far in degrees can you move the camera down")]
         public float BottomClamp = -90.0f;
 
+        [Tooltip("Mouse Sensitivity")]
+        public float sensitivityMultiplier;
+
         [Header("Head Bobbing")]
         [Tooltip("Enable/Disable head bobbing")]
         public bool enableHeadBob = true;
@@ -81,7 +84,7 @@ namespace PlayerCustomInput
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
 
-        float sensitivityMultiplier = GameManager.Instance.sensitivity * 0.2f;
+        
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -126,6 +129,8 @@ namespace PlayerCustomInput
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+
+            sensitivityMultiplier = GameManager.Instance.sensitivity * 0.2f;
         }
 
         private void Start()
