@@ -9,8 +9,6 @@ public class Cube : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        Debug.Log(GetInteractionPrompt());
-
-       
+        UIManager.Instance.ShowInteractionActive(GetInteractionPrompt());
     }
 }

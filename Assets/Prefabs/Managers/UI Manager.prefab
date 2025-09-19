@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2286537970174661176}
   - component: {fileID: 4017134908750266409}
+  - component: {fileID: 4542797380604993496}
+  - component: {fileID: 5866538997721273062}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -44,6 +46,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ea7d202a6125748b3b0968fdd751cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionPanel: {fileID: 0}
-  interactionText: {fileID: 0}
-  worldOffset: {x: -1, y: 0.5, z: 0}
+  interactionUI: {fileID: 5866538997721273062}
+  activeInteractionUI: {fileID: 4542797380604993496}
+--- !u!114 &4542797380604993496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184966636702252819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bee042986d83c3045affff7411c568d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  appearDuration: 0.4
+  yOffset: -30
+--- !u!114 &5866538997721273062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184966636702252819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 880c72c396bcd6041a0ba9f57f625051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  text: {fileID: 0}
+  worldOffset: {x: -0.5, y: 0.5, z: 0}
+  appearSpeed: 8
+  yOffset: -30
