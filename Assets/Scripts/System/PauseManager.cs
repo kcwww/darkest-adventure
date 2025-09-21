@@ -14,7 +14,9 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private Slider sensitivitySlider;
     [SerializeField] private TextMeshProUGUI textMeshProUGUI;
 
-    private bool isPaused = false;
+    public bool isPaused = false;
+
+    
 
 
     void Start()
@@ -57,19 +59,22 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (playerInput.paused &&  !isPaused)
         {
-            if (isPaused)
-                Resume();
-            else
-                Pause();
+            Pause();
+        }
+        else if (!playerInput.paused && isPaused)
+        {
+            Resume();
         }
     }
 
-    private void Pause()
+    
+
+    public void Pause()
     {
-        Time.timeScale = 0f;
         isPaused = true;
+        Time.timeScale = 0f;
         playerInput.look = Vector2.zero;
         playerInput.move = Vector2.zero;
         playerInput.EnableLook(false); // 마우스 보이고, 카메라 회전 막기
@@ -80,12 +85,20 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
-        Time.timeScale = 1f;
         isPaused = false;
-        playerInput.EnableLook(true);
+        Time.timeScale = 1f;
         firstPersonController.sensitivityMultiplier = GameManager.Instance.sensitivity * 0.2f;
         if (pauseUI != null)
             pauseUI.SetActive(false);
+
+        if (!UIManager.Instance.isWatching)
+            playerInput.EnableLook(true);
+    }
+
+    public void CloseButton()
+    {
+        playerInput.paused = false;
+        Resume();
     }
 
     public void GoMainMenu()

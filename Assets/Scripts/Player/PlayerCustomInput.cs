@@ -22,6 +22,13 @@ namespace PlayerCustomInput
         public bool interact;
         public bool interactUnLocked = true;
 
+        [Header("Pause")]
+        public bool paused = false;
+
+        [Header("Map")]
+        public bool map = false;
+
+
 #if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value)
         {
@@ -40,6 +47,17 @@ namespace PlayerCustomInput
         {
             if (interactUnLocked) InteractInput(value.isPressed);
         }
+        public void OnMap(InputValue value)
+        {
+            if (value.isPressed) map = !map;
+        }
+
+        public void OnPause(InputValue value)
+        {
+            if (value.isPressed)
+                paused = !paused;
+        }
+
 #endif
 
         public void MoveInput(Vector2 newMoveDirection) => move = newMoveDirection;
@@ -47,6 +65,8 @@ namespace PlayerCustomInput
         public void JumpInput(bool newJumpState) => jump = newJumpState;
         public void SprintInput(bool newSprintState) => sprint = newSprintState;
         public void InteractInput(bool newInteractState) => interact = newInteractState;
+
+        
 
         private void OnApplicationFocus(bool hasFocus) => SetCursorState(cursorLocked);
 
