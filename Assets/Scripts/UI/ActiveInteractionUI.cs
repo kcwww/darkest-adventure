@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class ActiveInteractionUI : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
+    [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float appearDuration = 0.4f;
     [SerializeField] private float slideOffset = 30f; // 슬라이드 이동량(px)
 
@@ -31,9 +33,10 @@ public class ActiveInteractionUI : MonoBehaviour
     }
 
 
-    public void Show(string message)
+    public void Show(InteractionData data)
     {
         panel.SetActive(true);
+        text.text = data.message;
         StopAllCoroutines();
         coroutine = StartCoroutine(AnimateShow());
     }

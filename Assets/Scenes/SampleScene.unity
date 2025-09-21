@@ -516,6 +516,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07d41ec4e5e08fa49bd8465117d2173b, type: 3}
+--- !u!114 &822240860 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3927141877638860525, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
+  m_PrefabInstance: {fileID: 2830909035802496450}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,14 +1053,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3927141877638860525, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 96e4b8118e278ac4ca9eec8a9d245de1, type: 2}
+    - target: {fileID: 3927141877638860525, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
+      propertyPath: m_EmojiFallbackSupport
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4432392617256420244, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8391542856529080854}
-    - target: {fileID: 4432392617256420244, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4447816772993437956, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1077,10 +1092,6 @@ PrefabInstance:
     - target: {fileID: 5454892754151745959, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303118426681600491, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6812036150333761714, guid: 4eb56f60b24e85640b81271355975fca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1252,6 +1263,10 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 130500808}
+    - target: {fileID: 4542797380604993496, guid: 4f4ba188dc9acce4fb4545c43191fef1, type: 3}
+      propertyPath: text
+      value: 
+      objectReference: {fileID: 822240860}
     - target: {fileID: 4542797380604993496, guid: 4f4ba188dc9acce4fb4545c43191fef1, type: 3}
       propertyPath: panel
       value: 
@@ -1523,6 +1538,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2098133415527655168, guid: e721881eac22f634a828e82fb0718dc9, type: 3}
+      propertyPath: interactionData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b0ff3bd29c51604db2909367f406111, type: 2}
     - target: {fileID: 2906768444753126072, guid: e721881eac22f634a828e82fb0718dc9, type: 3}
       propertyPath: m_Name
       value: Cube

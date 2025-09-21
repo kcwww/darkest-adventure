@@ -19,18 +19,20 @@ public class UIManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void ShowInteraction(string message, Transform target)
-        => interactionUI.Show(message, target);
+    public void ShowInteraction(InteractionData data, Transform target)
+        => interactionUI.Show(data, target);
 
     public void HideInteraction()
         => interactionUI.Hide();
 
-    public void ShowInteractionActive(string message)
+    public void ShowInteractionActive(InteractionData data)
     {
         isWatching = true;
 
         interactionUI.Hide();
-        activeInteractionUI.Show(message);
+
+
+        activeInteractionUI.Show(data);
 
         if (playerInput != null)
         {

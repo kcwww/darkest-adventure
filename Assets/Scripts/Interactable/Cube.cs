@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour, IInteractable
 {
-    public string GetInteractionPrompt()
+    [SerializeField] private InteractionData interactionData;
+
+    public InteractionData GetInteractionData()
     {
-        return "Hello Buddy";
+        return interactionData;
     }
 
     public void Interact(GameObject interactor)
     {
-        UIManager.Instance.ShowInteractionActive(GetInteractionPrompt());
+        if (interactionData != null)
+            UIManager.Instance.ShowInteractionActive(interactionData);
     }
 }

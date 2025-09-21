@@ -41,7 +41,7 @@ public class InteractableTrigger : MonoBehaviour
 
             case ZoneType.UI:
                 if (interactable != null)
-                    UIManager.Instance.ShowInteraction(interactable.GetInteractionPrompt(), InteractObject.transform);
+                    UIManager.Instance.ShowInteraction(interactable.GetInteractionData(), InteractObject.transform);
                 break;
         }
     }

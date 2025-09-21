@@ -28,12 +28,11 @@ public class InteractionUI : MonoBehaviour
         }
     }
 
-    public void Show(string message, Transform target)
+    public void Show(InteractionData data, Transform target)
     {
         followTarget = target;
-        text.text = message;
         panel.SetActive(true);
-
+        text.text = data.prompt;
         Vector3 startPos = Camera.main.WorldToScreenPoint(target.position + worldOffset);
         startPos.y += yOffset;
         screenCurrentPos = startPos;
