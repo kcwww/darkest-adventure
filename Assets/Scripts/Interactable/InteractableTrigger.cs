@@ -13,9 +13,9 @@ public class InteractableTrigger : MonoBehaviour
     [SerializeField] private float interactRadius = 2f;
     [SerializeField] private ZoneType zoneType = ZoneType.Highlight;
 
-    public GameObject InteractObject;
+    public GameObject interactObject;
 
-    private IInteractable interactable;
+    private InteractObject interactable;
     private InteractableHighlight highlight;
 
     private void Awake()
@@ -26,12 +26,13 @@ public class InteractableTrigger : MonoBehaviour
 
         
         highlight = GetComponent<InteractableHighlight>();
-        interactable = InteractObject.GetComponent<IInteractable>();
+        interactable = interactObject.GetComponent<InteractObject>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+        if (!interactable.GetIsInteractable()) return;
 
         switch (zoneType)
         {
@@ -41,7 +42,7 @@ public class InteractableTrigger : MonoBehaviour
 
             case ZoneType.UI:
                 if (interactable != null)
-                    UIManager.Instance.ShowInteraction(interactable.GetInteractionData(), InteractObject.transform);
+                    UIManager.Instance.ShowInteraction(interactable.GetInteractionData(), interactObject.transform);
                 break;
         }
     }

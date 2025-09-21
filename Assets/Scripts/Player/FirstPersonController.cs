@@ -368,10 +368,12 @@ namespace PlayerCustomInput
             if (Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward,
                 out RaycastHit hit, interactRange, interactLayers))
             {
-                var interactable = hit.collider.GetComponent<IInteractable>();
+                var interactable = hit.collider.GetComponent<InteractObject>();
+                Debug.Log(interactable.GetIsInteractable());
                 if (interactable != null)
                 {
-                    currentInteractable = interactable;
+                    if (interactable.GetIsInteractable())
+                        currentInteractable = interactable;
                 }
             }
         }

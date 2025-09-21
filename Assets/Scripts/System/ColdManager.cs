@@ -61,13 +61,20 @@ public class ColdManager : MonoBehaviour
     {
         // 매 프레임 초당 increaseSpeed 만큼 증가
         value = Mathf.Min(coldSlider.value + increaseSpeed * Time.deltaTime, 255);
-
         coldSlider.value = value;
 
-        // 알파값은 0~1 범위로 변환해서 적용
-        float alpha = value / 255f;
+        // 알파 계산
+        float alpha = 0f;
+        if (value > 100f)
+        {
+            // 100일 때 0, 255일 때 1이 되도록 선형 보간
+            alpha = (value - 100f) / (255f - 100f);
+        }
+
+        // 알파 적용
         Color c = overlayImage.color;
         c.a = alpha;
         overlayImage.color = c;
     }
+
 }
