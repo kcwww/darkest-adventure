@@ -2,6 +2,11 @@ using System;
 using TMPro;
 using UnityEngine;
 
+public enum ItemType
+{
+    Matches = 0, Picks = 1, Shovels = 2, Axes = 3
+}
+
 public class ItemSlot : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI[] textMeshProUGUIs;

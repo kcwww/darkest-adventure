@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: Tutorial
   m_EditorClassIdentifier: 
   prompt: "Press [E] (\uC77D\uAE30)"
-  message: "\uC9C0\uB3C4 <sprite name=Map>\r\n\uB3C4\uB07C <sprite name=Axe> \uC785\uB2C8\uB2E4
-    \r\n\uACE1\uAD2D\uC774 <sprite name=Pick>\r\n\uC131\uB0E5 <sprite name=Match>\r\n\uC0BD
-    <sprite name=Shovel>\r\n"
+  message: "Tab \uD0A4\uB098 Select \uBC84\uD2BC\uC744 \uB20C\uB7EC \uC9C0\uB3C4
+    <sprite name=Map> \uB97C \uD655\uC778 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\r\nDarkest
+    Adventure \uB294 \uC544\uB798 4\uAC00\uC9C0 \uC544\uC774\uD15C\uC744 \uC0AC\uC6A9\uD574
+    \uBAA9\uD45C\uC9C0\uC810\uAE4C\uC9C0 \uB3C4\uB2EC\uD574\uC57C\uD569\uB2C8\uB2E4.\n\n\r<sprite
+    name=Match> <sprite name=Pick> <sprite name=Shovel>  <sprite name=Axe>\n\n\uC131\uB0E5
+    <sprite name=Match> : \uC0B0\uC7A5\uC5D0\uC11C \uC0AC\uC6A9\uC2DC \uCD94\uC704\uAC00
+    \uAC10\uC18C\uD569\uB2C8\uB2E4.\n\n\uACE1\uAD2D\uC774 <sprite name=Pick> : \uB2E8\uB2E8\uD574
+    \uBCF4\uC774\uB294 \uBB3C\uAC74\uC5D0 \uC0AC\uC6A9\uC2DC \uC131\uACF5 \uD655\uB960\uC774
+    \uC99D\uAC00\uD569\uB2C8\uB2E4.\n\n\uC0BD <sprite name=Shovel> : \uBB49\uCCD0\uC788\uB294
+    \uB208\uC5D0 \uC0AC\uC6A9\uC2DC \uC131\uACF5 \uD655\uB960\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4.\n\n\uB3C4\uB07C
+    <sprite name=Axe> : \uBAA9\uC7AC\uC640 \uAC19\uC740 \uC18C\uC7AC\uC5D0 \uC0AC\uC6A9\uC2DC
+    \uC131\uACF5 \uD655\uB960\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
