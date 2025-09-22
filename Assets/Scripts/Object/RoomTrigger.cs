@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
 public class RoomTrigger : MonoBehaviour
 {
-    public int triggerIndex;   // 0, 1 °¶ ∫–±‚ ¿Œµ¶Ω∫
+    public int triggerIndex;
     public int nextRoomId;
 
     private void Start()
@@ -30,10 +29,8 @@ public class RoomTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player")) return;
-
+    public void NextRoom()
+    {        
         var nextRoom = GameManager.Instance.FindRoomById(nextRoomId);
         int branchCount = 0;
 

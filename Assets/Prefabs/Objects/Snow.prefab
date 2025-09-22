@@ -395,7 +395,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 2.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3615636036228630637
 MonoBehaviour:
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5082455d923c1934181c7de4093e56df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactRadius: 2
+  interactRadius: 2.5
   zoneType: 1
   interactObject: {fileID: 8299031174680461514}
 --- !u!114 &8189294752010743137
@@ -767,3 +767,5 @@ MonoBehaviour:
   - 0.7
   - 0.4
   - 0.3
+  coldManager: {fileID: 0}
+  roomTrigger: {fileID: 0}

@@ -100,7 +100,7 @@ MonoBehaviour:
   sprintBobStrength: 0.08
   sprintBobSpeed: 18
   bobSmoothTime: 0.1
-  interactRange: 2.5
+  interactRange: 3.5
   interactLayers:
     serializedVersion: 2
     m_Bits: 128

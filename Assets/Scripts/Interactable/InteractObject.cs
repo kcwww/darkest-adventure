@@ -4,7 +4,10 @@ public enum InteractionType
 {
     None,
     Object,
-    Reward
+    Reward,
+    Check,
+    Item,
+    Bed
 }
 
 public class InteractObject : MonoBehaviour, IInteractable
@@ -14,6 +17,8 @@ public class InteractObject : MonoBehaviour, IInteractable
     public InteractionType InteractionObjectType;
     [SerializeField] UseItem useItem;
     [SerializeField] float[] probability; // æ∆¿Ã≈€ ªÁøÎ »Æ∑¸
+    [SerializeField] ColdManager coldManager;
+    [SerializeField] RoomTrigger roomTrigger;
 
     bool isInteractable = true;
 
@@ -27,8 +32,11 @@ public class InteractObject : MonoBehaviour, IInteractable
         if (interactionData == null) return;
 
         if (InteractionObjectType == InteractionType.None) UIManager.Instance.ShowInteractionActive(interactionData, this);
+        else if (InteractionObjectType == InteractionType.Check) UIManager.Instance.ShowInteractionActive(interactionData, this);
+        else if (InteractionObjectType == InteractionType.Item) UIManager.Instance.ShowInteractionActive(interactionData, this);
         else if (InteractionObjectType == InteractionType.Object) UIManager.Instance.ShowObjectUIActive(interactionData, this);
         else if (InteractionObjectType == InteractionType.Reward) UIManager.Instance.ShowObjectUIActive(interactionData, this);
+        else if (InteractionObjectType == InteractionType.Bed) UIManager.Instance.ShowObjectUIActive(interactionData, this);
 
     }
 
@@ -68,11 +76,42 @@ public class InteractObject : MonoBehaviour, IInteractable
             }
             SetInteractable(false);
             useItem.ResetButtons();
-        } else if (InteractionObjectType == InteractionType.Reward)
+        }
+        else if (InteractionObjectType == InteractionType.Reward)
         {
             UIManager.Instance.HideObjectUIActive();
             bool success = useItem.TryUseItem(ItemType.None, 0.5f);
             SetInteractable(false);
+        }
+        else if (InteractionObjectType == InteractionType.Check)
+        {
+            UIManager.Instance.HideInteractionActive();
+        }
+        else if (InteractionObjectType == InteractionType.Item)
+        {
+            UIManager.Instance.HideInteractionActive();
+            isInteractable = false;
+            // room ¿« itemType ø° µ˚∂Û æ∆¿Ã≈€ »πµÊ
+            Debug.Log("æ∆¿Ã≈€ »πµÊ");
+        }
+        else if (InteractionObjectType == InteractionType.Bed)
+        {
+            UIManager.Instance.HideObjectUIActive();
+            isInteractable = false;
+            // ¥Ÿ¿Ω æ¿ ¿∏∑Œ
+            if (useItem.selectedItemIndex == 3)
+            {
+                useItem.selectedItemIndex = -1;
+                slot.DecreaseItemCount((int)ItemType.Matches);
+
+
+                // √ﬂ¿ß ∞®º“
+                GameManager.Instance.coldValue -= 50f;
+                if (GameManager.Instance.coldValue < 0f) GameManager.Instance.coldValue = 0f;
+                coldManager.SetColdByGameManager();
+
+            }
+            roomTrigger.NextRoom();
         }
     }
 
@@ -84,13 +123,13 @@ public class InteractObject : MonoBehaviour, IInteractable
 
     public void CloseButton()
     {
-        if (InteractionObjectType == InteractionType.None) UIManager.Instance.HideInteractionActive();
+        if (InteractionObjectType == InteractionType.None || InteractionObjectType == InteractionType.Check || InteractionObjectType == InteractionType.Item) UIManager.Instance.HideInteractionActive();
         else if (InteractionObjectType == InteractionType.Object)
         {
             UIManager.Instance.HideObjectUIActive();
             useItem.ResetButtons();
         }
-        else if (InteractionObjectType == InteractionType.Reward)
+        else if (InteractionObjectType == InteractionType.Reward || InteractionObjectType == InteractionType.Bed)
         {
             UIManager.Instance.HideObjectUIActive();
             useItem.ResetButtons();

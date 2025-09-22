@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ObjectUseUI : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
-    [SerializeField] private Button[] buttons; // 0=pick , 1=shovel, 2=axe
+    [SerializeField] private Button[] buttons; // 0=pick , 1=shovel, 2=axe, 3 = Match
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float appearDuration = 0.4f;
     [SerializeField] private float slideOffset = 30f; // 슬라이드 이동량(px)
@@ -46,6 +46,9 @@ public class ObjectUseUI : MonoBehaviour
 
         // Axe
         buttons[2].interactable = GameManager.Instance.GetItemCount(ItemType.Axes) > 0;
+
+        // Match
+        buttons[3].interactable = GameManager.Instance.GetItemCount(ItemType.Matches) > 0;
     }
 
 
@@ -62,12 +65,21 @@ public class ObjectUseUI : MonoBehaviour
                 buttons[i].gameObject.SetActive(false);
             }
         }
-        else
+        else if (obj.InteractionObjectType == InteractionType.Bed)
         {
             for (int i = 0; i < buttons.Length; i++)
             {
+                buttons[i].gameObject.SetActive(false);
+            }
+            buttons[3].gameObject.SetActive(true); // 성냥만 활성화
+        }
+        else
+        {
+            for (int i = 0; i < buttons.Length - 1; i++)
+            {
                 buttons[i].gameObject.SetActive(true);
             }
+            buttons[3].gameObject.SetActive(false); // 성냥 비활성화
         }
 
         StopAllCoroutines();

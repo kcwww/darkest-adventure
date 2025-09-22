@@ -8,6 +8,8 @@ public class GameManager : Singleton<GameManager>
 
     public int currentRoomId = 0;
 
+    public float coldValue = 0f; // 0 ~ 255
+
     // 생성된 맵 데이터 (씬이 바뀌어도 유지)
     public List<List<Room>> floors = new List<List<Room>>();
 

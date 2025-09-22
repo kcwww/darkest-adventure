@@ -10,7 +10,6 @@ public class ColdManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float increaseSpeed = 1f; // 초당 1씩 증가
 
-    public float value = 0f;
 
     private bool isFull = false; // 이미 꽉 찼는지 여부 체크
 
@@ -20,13 +19,20 @@ public class ColdManager : MonoBehaviour
         {
             coldSlider.minValue = 0;
             coldSlider.maxValue = 255;
-            coldSlider.value = 0;
+            coldSlider.value = GameManager.Instance.coldValue;
         }
 
         if (overlayImage != null)
         {
             Color c = overlayImage.color;
-            c.a = 0f;
+            if (GameManager.Instance.coldValue > 100f)
+            {
+                // 100일 때 0, 255일 때 1이 되도록 선형 보간
+                c.a = (GameManager.Instance.coldValue - 100f) / (255f - 100f);
+            } else
+            {
+                c.a = 0f;
+            }
             overlayImage.color = c;
         }
     }
@@ -60,15 +66,33 @@ public class ColdManager : MonoBehaviour
     void SetValue()
     {
         // 매 프레임 초당 increaseSpeed 만큼 증가
-        value = Mathf.Min(coldSlider.value + increaseSpeed * Time.deltaTime, 255);
-        coldSlider.value = value;
+        GameManager.Instance.coldValue = Mathf.Min(coldSlider.value + increaseSpeed * Time.deltaTime, 255);
+        coldSlider.value = GameManager.Instance.coldValue;
 
         // 알파 계산
         float alpha = 0f;
-        if (value > 100f)
+        if (GameManager.Instance.coldValue > 100f)
         {
             // 100일 때 0, 255일 때 1이 되도록 선형 보간
-            alpha = (value - 100f) / (255f - 100f);
+            alpha = (GameManager.Instance.coldValue - 100f) / (255f - 100f);
+        }
+
+        // 알파 적용
+        Color c = overlayImage.color;
+        c.a = alpha;
+        overlayImage.color = c;
+    }
+
+    public void SetColdByGameManager()
+    {
+        coldSlider.value = GameManager.Instance.coldValue;
+
+        // 알파 계산
+        float alpha = 0f;
+        if (GameManager.Instance.coldValue > 100f)
+        {
+            // 100일 때 0, 255일 때 1이 되도록 선형 보간
+            alpha = (GameManager.Instance.coldValue - 100f) / (255f - 100f);
         }
 
         // 알파 적용
