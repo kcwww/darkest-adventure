@@ -25,8 +25,8 @@ public class InteractObject : MonoBehaviour, IInteractable
     {
         if (interactionData == null) return;
 
-        if (type == InteractionType.None) UIManager.Instance.ShowInteractionActive(interactionData);
-        else if (type == InteractionType.Object) UIManager.Instance.ShowObjectUIActive(interactionData);
+        if (type == InteractionType.None) UIManager.Instance.ShowInteractionActive(interactionData, this);
+        else if (type == InteractionType.Object) UIManager.Instance.ShowObjectUIActive(interactionData, this);
 
     }
 
@@ -64,14 +64,25 @@ public class InteractObject : MonoBehaviour, IInteractable
                     success = useItem.TryUseItem(ItemType.None, probability[3]);
                     break;
             }
-            isInteractable = false;
+            SetInteractable(false);
+            useItem.ResetButtons();
         }
     }
+
+    public void SetInteractable(bool value)
+    {
+        isInteractable = value;
+    }
+
 
     public void CloseButton()
     {
         if (type == InteractionType.None) UIManager.Instance.HideInteractionActive();
-        else if (type == InteractionType.Object) UIManager.Instance.HideObjectUIActive();
+        else if (type == InteractionType.Object)
+        {
+            UIManager.Instance.HideObjectUIActive();
+            useItem.ResetButtons();
+        }
     }
 
     public bool GetIsInteractable()

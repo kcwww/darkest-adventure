@@ -8,6 +8,8 @@ public class UseItem : MonoBehaviour
     [SerializeField] ItemSlot itemSlot;
     public int selectedItemIndex = (int)ItemType.None;
 
+
+
     /// <summary>
     /// 아이템 사용 시도
     /// </summary>
@@ -15,6 +17,7 @@ public class UseItem : MonoBehaviour
     /// <param name="successRate">성공 확률 (0~1)</param>
     public bool TryUseItem(ItemType type, float successRate)
     {
+        ResetButtons();
         if (type == ItemType.None)
         {
             bool noneSuccess = Random.value <= successRate;
@@ -51,6 +54,15 @@ public class UseItem : MonoBehaviour
         }
 
         return success;
+    }
+
+    public void ResetButtons()
+    {
+        selectedItemIndex = -1;
+        for (int i = 0; i < itemButtons.Length; i++)
+        {
+            itemButtons[i].GetComponent<Image>().color = Color.white;
+        }
     }
 
 

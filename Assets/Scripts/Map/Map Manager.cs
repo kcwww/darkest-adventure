@@ -23,7 +23,7 @@ public class MapManager : MonoBehaviour
             mapUI.SetActive(false); // 시작할 때는 꺼두기
     }
 
-    
+
     void Update()
     {
         if (playerInput.map && !isMapOpened)

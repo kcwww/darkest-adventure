@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 3810805795251101024}
   - component: {fileID: 8697633550640972834}
   - component: {fileID: 9018216087725030169}
-  - component: {fileID: 711607847232269851}
+  - component: {fileID: 6974811096597660820}
   m_Layer: 7
   m_Name: Box
   m_TagString: Untagged
@@ -256,7 +256,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &711607847232269851
+--- !u!114 &6974811096597660820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,6 +273,8 @@ MonoBehaviour:
   type: 1
   useItem: {fileID: 0}
   probability:
+  - 0.5
+  - 0.5
   - 0.5
 --- !u!1 &4624833290901199032
 GameObject:

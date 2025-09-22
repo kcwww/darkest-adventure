@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,8 +12,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ObjectUseUI objectUseUI;
     [SerializeField] private EventTextUI eventTextUI;
 
+    [SerializeField] GameObject mapUIIcon;
+
     // 플레이어 입력 참조 (Inspector에서 PlayerCustomInput 연결)
     [SerializeField] private PlayerCustomInput.PlayerCustomInput playerInput;
+
+
+    InteractObject currentObject;
 
     public bool isWatching = false;
 
@@ -28,14 +34,16 @@ public class UIManager : MonoBehaviour
     public void HideInteraction()
         => interactionUI.Hide();
 
-    public void ShowInteractionActive(InteractionData data)
+    public void ShowInteractionActive(InteractionData data, InteractObject obj)
     {
+        currentObject = obj;
         isWatching = true;
 
         interactionUI.Hide();
 
 
         activeInteractionUI.Show(data);
+        mapUIIcon.SetActive(false);
 
         if (playerInput != null)
         {
@@ -51,6 +59,7 @@ public class UIManager : MonoBehaviour
         isWatching = false;
 
         activeInteractionUI.Hide();
+        mapUIIcon.SetActive(true);
 
         if (playerInput != null)
         {
@@ -59,13 +68,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowObjectUIActive(InteractionData data)
+    public void ShowObjectUIActive(InteractionData data, InteractObject obj)
     {
+        currentObject = obj;
         isWatching = true;
 
         interactionUI.Hide();
 
         objectUseUI.Show(data);
+        mapUIIcon.SetActive(false);
 
 
 
@@ -83,7 +94,9 @@ public class UIManager : MonoBehaviour
         isWatching = false;
 
         objectUseUI.Hide();
+        mapUIIcon.SetActive(true);
 
+        
         if (playerInput != null)
         {
             playerInput.SetInteractState(true);
@@ -96,6 +109,16 @@ public class UIManager : MonoBehaviour
     {
         
         eventTextUI.ShowEventText(message, successful);
+    }
+
+    public void CofirmButton()
+    {
+        currentObject.ButtonActive();
+    }
+
+    public void CloseButton()
+    {
+        currentObject.CloseButton();
     }
 
 }

@@ -53,6 +53,7 @@ MonoBehaviour:
   activeInteractionUI: {fileID: 4542797380604993496}
   objectUseUI: {fileID: 4898078241447924640}
   eventTextUI: {fileID: 2385562289486228942}
+  mapUIIcon: {fileID: 0}
   playerInput: {fileID: 0}
   isWatching: 0
 --- !u!114 &4542797380604993496
@@ -118,6 +119,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 0}
+  buttons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   text: {fileID: 0}
   appearDuration: 0.4
   slideOffset: 30

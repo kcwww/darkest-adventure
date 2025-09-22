@@ -2,10 +2,12 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.UI;
 
 public class ObjectUseUI : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
+    [SerializeField] private Button[] buttons; // 0=pick , 1=shovel, 2=axe
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float appearDuration = 0.4f;
     [SerializeField] private float slideOffset = 30f; // 슬라이드 이동량(px)
@@ -34,10 +36,26 @@ public class ObjectUseUI : MonoBehaviour
     }
 
 
+    void CheckItemCount()
+    {
+        // Pick
+        buttons[0].interactable = GameManager.Instance.GetItemCount(ItemType.Picks) > 0;
+
+        // Shovel
+        buttons[1].interactable = GameManager.Instance.GetItemCount(ItemType.Shovels) > 0;
+
+        // Axe
+        buttons[2].interactable = GameManager.Instance.GetItemCount(ItemType.Axes) > 0;
+    }
+
+
     public void Show(InteractionData data)
     {
         panel.SetActive(true);
         text.text = data.message;
+
+        CheckItemCount();
+
         StopAllCoroutines();
         coroutine = StartCoroutine(AnimateShow());
     }
