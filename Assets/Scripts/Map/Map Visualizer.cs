@@ -7,6 +7,10 @@ public class MapVisualizer : MonoBehaviour
 {
     [SerializeField] private RectTransform[] panels;
     [SerializeField] private GameObject roomPrefab;
+
+    [SerializeField] private GameObject roomItemPrefab;
+    [SerializeField] Sprite[] roomItemSprites; // 아이템 스프라이트 배열
+
     [SerializeField] private GameObject linePrefab;
     [SerializeField] private GameObject lines;
 
@@ -32,6 +36,88 @@ public class MapVisualizer : MonoBehaviour
         DrawMap(floors);
     }
 
+
+
+    //void DrawMap(List<List<Room>> floors)
+    //{
+    //    connections.Clear();
+    //    roomUIs.Clear();
+
+    //    Dictionary<int, RectTransform> roomObjects = new Dictionary<int, RectTransform>();
+
+    //    // 모든 RoomUI 생성 및 매핑
+    //    for (int depth = 0; depth < floors.Count; depth++)
+    //    {
+    //        var floor = floors[depth];
+    //        foreach (var room in floor)
+    //        {
+    //            // ✅ 아이템 여부에 따라 프리팹 선택
+    //            GameObject prefabToUse = (room.rewardType != ItemType.None) ? roomItemPrefab : roomPrefab;
+
+    //            GameObject go = Instantiate(prefabToUse, panels[depth]);
+    //            go.name = $"Room {room.id}";
+    //            var rt = go.GetComponent<RectTransform>();
+    //            var ui = go.GetComponent<RoomUI>();
+
+    //            ui.Init(room);
+
+    //            // 아이템 프리팹이면 하위 Image 세팅
+    //            if (room.rewardType != ItemType.None)
+    //            {
+    //                // 프리팹 하위 "Icon" 오브젝트 찾기 (이름은 실제 하위 오브젝트 이름으로 맞춰야 함)
+    //                var img = go.transform.Find("Image")?.GetComponent<Image>();
+
+    //                if (img != null)
+    //                {
+    //                    int index = (int)room.rewardType;
+    //                    if (index >= 0 && index < roomItemSprites.Length)
+    //                    {
+    //                        img.sprite = roomItemSprites[index];
+    //                    }
+    //                    else
+    //                    {
+    //                        Debug.LogWarning($"[MapVisualizer] rewardType {room.rewardType}에 해당하는 스프라이트가 없습니다.");
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    Debug.LogWarning("[MapVisualizer] roomItemPrefab에 'Icon' 오브젝트를 찾을 수 없습니다.");
+    //                }
+    //            }
+
+
+    //            roomObjects[room.id] = rt;
+    //            roomUIs[room.id] = ui;
+    //        }
+    //    }
+
+    //    // 레이아웃 강제 갱신
+    //    foreach (var panel in panels)
+    //        LayoutRebuilder.ForceRebuildLayoutImmediate(panel);
+
+    //    // 연결 관계 저장
+    //    foreach (var floor in floors)
+    //    {
+    //        foreach (var room in floor)
+    //        {
+    //            foreach (var connectedRoom in room.connections)
+    //            {
+    //                connections.Add((room.id, connectedRoom.id, roomObjects[room.id], roomObjects[connectedRoom.id]));
+    //            }
+    //        }
+    //    }
+
+    //    DrawLine();
+
+    //    // 현재 방 하이라이트
+    //    ApplyCurrentRoomHighlight(floors);
+    //    Room current = GameManager.Instance.GetCurrentRoom();
+    //    if (current != null)
+    //    {
+    //        HighlightCurrentAndSelectable(current); // 여기서 트리거도 다시 세팅됨
+    //    }
+    //}
+
     void DrawMap(List<List<Room>> floors)
     {
         connections.Clear();
@@ -39,18 +125,44 @@ public class MapVisualizer : MonoBehaviour
 
         Dictionary<int, RectTransform> roomObjects = new Dictionary<int, RectTransform>();
 
+        // 현재 방 찾기
+        Room currentRoom = GameManager.Instance.GetCurrentRoom();
+        int nextDepth = (currentRoom != null) ? currentRoom.depth + 1 : -1;
+
         // 모든 RoomUI 생성 및 매핑
         for (int depth = 0; depth < floors.Count; depth++)
         {
             var floor = floors[depth];
             foreach (var room in floor)
             {
-                GameObject go = Instantiate(roomPrefab, panels[depth]);
+                GameObject prefabToUse;
+
+                // ✅ 다음 층만 아이템 여부 표시
+                if (room.depth == nextDepth && room.rewardType != ItemType.None)
+                    prefabToUse = roomItemPrefab;
+                else
+                    prefabToUse = roomPrefab;
+
+                GameObject go = Instantiate(prefabToUse, panels[depth]);
                 go.name = $"Room {room.id}";
                 var rt = go.GetComponent<RectTransform>();
                 var ui = go.GetComponent<RoomUI>();
 
                 ui.Init(room);
+
+                // 다음 층 + 아이템이 있을 때만 아이콘 세팅
+                if (room.depth == nextDepth && room.rewardType != ItemType.None)
+                {
+                    var img = go.transform.Find("Image")?.GetComponent<Image>();
+                    if (img != null)
+                    {
+                        int index = (int)room.rewardType;
+                        if (index >= 0 && index < roomItemSprites.Length)
+                            img.sprite = roomItemSprites[index];
+                        else
+                            Debug.LogWarning($"[MapVisualizer] rewardType {room.rewardType}에 해당하는 스프라이트가 없습니다.");
+                    }
+                }
 
                 roomObjects[room.id] = rt;
                 roomUIs[room.id] = ui;
@@ -83,6 +195,8 @@ public class MapVisualizer : MonoBehaviour
             HighlightCurrentAndSelectable(current); // 여기서 트리거도 다시 세팅됨
         }
     }
+
+
 
     private void ApplyCurrentRoomHighlight(List<List<Room>> floors)
     {

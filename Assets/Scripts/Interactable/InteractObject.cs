@@ -46,7 +46,8 @@ public class InteractObject : MonoBehaviour, IInteractable
         {
             UIManager.Instance.HideObjectUIActive();
 
-            useItem.selectedItemIndex += 1;
+            if (!(useItem.selectedItemIndex == -1))
+                useItem.selectedItemIndex += 1;
             bool success = false;
             switch (useItem.selectedItemIndex)
             {

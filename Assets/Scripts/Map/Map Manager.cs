@@ -8,6 +8,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject mapUI; // Inspector에서 연결할 Pause UI
     [SerializeField] private PlayerCustomInput.PlayerCustomInput playerInput;
     [SerializeField] private FirstPersonController firstPersonController;
+    [SerializeField] private GameObject mapIconUI;
 
 
     public MapVisualizer visualizer;
@@ -40,7 +41,8 @@ public class MapManager : MonoBehaviour
     public void MapOpen()
     {
         isMapOpened = true;
-        
+        mapIconUI.SetActive(false);
+
 
         if (mapUI != null)
         {
@@ -72,7 +74,8 @@ public class MapManager : MonoBehaviour
     public void MapClose()
     {
         isMapOpened = false;
-        
+        mapIconUI.SetActive(true);
+
         if (mapUI != null)
             mapUI.SetActive(false);
 

@@ -44,6 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4e6247bfc2d9a448933683fdd1f741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 0}
+  panels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   roomPrefab: {fileID: 4542006504357037205, guid: be7ee7d6558e0b34883bfa8f1a6a4a9d, type: 3}
+  roomItemPrefab: {fileID: 4542006504357037205, guid: 971ac3b6c8eba374cbab366176761f50, type: 3}
+  roomItemSprites:
+  - {fileID: 21300000, guid: 50d4643c3b49e724cb9fcc46bfbe1718, type: 3}
+  - {fileID: 21300000, guid: 249bb955d25d0dd48b2c3146dbb3f3d4, type: 3}
+  - {fileID: 21300000, guid: 6e13cb98c877d1140b0275de78acc7b8, type: 3}
+  - {fileID: 21300000, guid: 398b0ad0b046efe4ab598c6da44071e1, type: 3}
   linePrefab: {fileID: 8719656096977946413, guid: 9b89576345cc074418da6b85ba355f14, type: 3}
+  lines: {fileID: 0}
+  triggers:
+  - {fileID: 0}
+  - {fileID: 0}

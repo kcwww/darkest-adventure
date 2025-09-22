@@ -14,7 +14,7 @@ public class MapGenerator : MonoBehaviour
         idCounter = 0;
 
         // 1층 시작 방
-        var start = new Room(1, idCounter++);
+        var start = new Room(1, idCounter++, ItemType.None);
         floors.Add(new List<Room> { start });
 
         // 2~4층 생성
@@ -30,9 +30,11 @@ public class MapGenerator : MonoBehaviour
                     Room next;
 
                     // 2층일 때는 무조건 새 방 생성 (겹치지 않도록 보장)
+                    ItemType itemType = (ItemType)Random.Range(-1, 4);
+
                     if (depth == 2 || floor.Count == 0)
                     {
-                        next = new Room(depth, idCounter++);
+                        next = new Room(depth, idCounter++, itemType);
                         floor.Add(next);
                     }
                     else
@@ -45,7 +47,7 @@ public class MapGenerator : MonoBehaviour
                         }
                         else
                         {
-                            next = new Room(depth, idCounter++);
+                            next = new Room(depth, idCounter++, itemType);
                             floor.Add(next);
                         }
                     }
@@ -60,7 +62,7 @@ public class MapGenerator : MonoBehaviour
 
 
         // 5층: 보스방 1개
-        var boss = new Room(5, idCounter++);
+        var boss = new Room(5, idCounter++, ItemType.None);
         floors.Add(new List<Room> { boss });
 
         foreach (var room in floors[3]) // 4층의 모든 방
