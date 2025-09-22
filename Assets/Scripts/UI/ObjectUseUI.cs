@@ -49,12 +49,26 @@ public class ObjectUseUI : MonoBehaviour
     }
 
 
-    public void Show(InteractionData data)
+    public void Show(InteractionData data, InteractObject obj)
     {
         panel.SetActive(true);
         text.text = data.message;
 
         CheckItemCount();
+        if (obj.InteractionObjectType == InteractionType.Reward)
+        {
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].gameObject.SetActive(true);
+            }
+        }
 
         StopAllCoroutines();
         coroutine = StartCoroutine(AnimateShow());

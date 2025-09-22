@@ -1,16 +1,17 @@
 using UnityEngine;
 
-enum InteractionType
+public enum InteractionType
 {
     None,
     Object,
+    Reward
 }
 
 public class InteractObject : MonoBehaviour, IInteractable
 {
     [SerializeField] private InteractionData interactionData;
     [SerializeField] private ItemSlot slot;
-    [SerializeField] private InteractionType type;
+    public InteractionType InteractionObjectType;
     [SerializeField] UseItem useItem;
     [SerializeField] float[] probability; // 아이템 사용 확률
 
@@ -25,15 +26,16 @@ public class InteractObject : MonoBehaviour, IInteractable
     {
         if (interactionData == null) return;
 
-        if (type == InteractionType.None) UIManager.Instance.ShowInteractionActive(interactionData, this);
-        else if (type == InteractionType.Object) UIManager.Instance.ShowObjectUIActive(interactionData, this);
+        if (InteractionObjectType == InteractionType.None) UIManager.Instance.ShowInteractionActive(interactionData, this);
+        else if (InteractionObjectType == InteractionType.Object) UIManager.Instance.ShowObjectUIActive(interactionData, this);
+        else if (InteractionObjectType == InteractionType.Reward) UIManager.Instance.ShowObjectUIActive(interactionData, this);
 
     }
 
     // 버튼 액티브는 사용하는데 안에 내용은 임시
     public void ButtonActive()
     {
-        if (type == InteractionType.None)
+        if (InteractionObjectType == InteractionType.None)
         {
             UIManager.Instance.HideInteractionActive();
             isInteractable = false;
@@ -42,7 +44,7 @@ public class InteractObject : MonoBehaviour, IInteractable
                 slot.IncreaseItemCount(i);
             }
         }
-        else if (type == InteractionType.Object)
+        else if (InteractionObjectType == InteractionType.Object)
         {
             UIManager.Instance.HideObjectUIActive();
 
@@ -66,6 +68,11 @@ public class InteractObject : MonoBehaviour, IInteractable
             }
             SetInteractable(false);
             useItem.ResetButtons();
+        } else if (InteractionObjectType == InteractionType.Reward)
+        {
+            UIManager.Instance.HideObjectUIActive();
+            bool success = useItem.TryUseItem(ItemType.None, 0.5f);
+            SetInteractable(false);
         }
     }
 
@@ -77,8 +84,13 @@ public class InteractObject : MonoBehaviour, IInteractable
 
     public void CloseButton()
     {
-        if (type == InteractionType.None) UIManager.Instance.HideInteractionActive();
-        else if (type == InteractionType.Object)
+        if (InteractionObjectType == InteractionType.None) UIManager.Instance.HideInteractionActive();
+        else if (InteractionObjectType == InteractionType.Object)
+        {
+            UIManager.Instance.HideObjectUIActive();
+            useItem.ResetButtons();
+        }
+        else if (InteractionObjectType == InteractionType.Reward)
         {
             UIManager.Instance.HideObjectUIActive();
             useItem.ResetButtons();

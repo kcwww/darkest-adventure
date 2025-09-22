@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
 
         interactionUI.Hide();
 
-        objectUseUI.Show(data);
+        objectUseUI.Show(data, obj);
         mapUIIcon.SetActive(false);
 
 

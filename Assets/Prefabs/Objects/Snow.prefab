@@ -760,9 +760,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionData: {fileID: 11400000, guid: aab22327822c74540b23a3aabf4b08e1, type: 2}
   slot: {fileID: 0}
-  type: 1
+  InteractionObjectType: 1
   useItem: {fileID: 0}
   probability:
   - 0.7
   - 0.9
   - 0.6
+  - 0.5
