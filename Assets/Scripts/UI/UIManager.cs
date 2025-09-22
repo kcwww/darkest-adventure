@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class UIManager : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private InteractionUI interactionUI;
     [SerializeField] private ActiveInteractionUI activeInteractionUI;
+    [SerializeField] private ObjectUseUI objectUseUI;
+    [SerializeField] private EventTextUI eventTextUI;
 
     // 플레이어 입력 참조 (Inspector에서 PlayerCustomInput 연결)
     [SerializeField] private PlayerCustomInput.PlayerCustomInput playerInput;
@@ -56,5 +59,43 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowObjectUIActive(InteractionData data)
+    {
+        isWatching = true;
+
+        interactionUI.Hide();
+
+        objectUseUI.Show(data);
+
+
+
+        if (playerInput != null)
+        {
+            playerInput.look = Vector2.zero;
+            playerInput.move = Vector2.zero;
+            playerInput.SetInteractState(false);
+            playerInput.EnableLook(false); // 마우스 보이고, 카메라 회전 막기
+        }
+    }
+
+    public void HideObjectUIActive()
+    {
+        isWatching = false;
+
+        objectUseUI.Hide();
+
+        if (playerInput != null)
+        {
+            playerInput.SetInteractState(true);
+            playerInput.EnableLook(true); // 마우스 다시 숨기고, 카메라 회전 복구
+        }
+    }
+
+
+    public void ShowEventText(string message, bool successful)
+    {
+        
+        eventTextUI.ShowEventText(message, successful);
+    }
 
 }

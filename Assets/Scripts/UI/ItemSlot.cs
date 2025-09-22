@@ -1,47 +1,51 @@
-using System;
 using TMPro;
 using UnityEngine;
 
 public enum ItemType
 {
-    Matches = 0, Picks = 1, Shovels = 2, Axes = 3
+    Matches = 0,
+    Picks = 1,
+    Shovels = 2,
+    Axes = 3,
+    None = -1 // UI °¹¼ö¶û °ü°è¾ø´Â °ªÀ¸·Î µÒ
 }
+
 
 public class ItemSlot : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI[] textMeshProUGUIs;
 
-    void Awake()
+    void Start()
     {
-        foreach (var item in textMeshProUGUIs)
+        RefreshUI();
+    }
+
+    public void RefreshUI()
+    {
+        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
         {
-            item.text = "0";
+            if (type == ItemType.None)
+                continue; // NoneÀº UI ½½·ÔÀÌ ¾øÀ¸¹Ç·Î ½ºÅµ
+
+            int index = (int)type;
+            int count = GameManager.Instance.GetItemCount(type);
+            textMeshProUGUIs[index].text = count.ToString();
         }
     }
 
-    void SetItemCount(int index, int count)
-    {
-        if (index < 0 || index > textMeshProUGUIs.Length - 1)
-        {
-            Debug.Log("Index out of bound");
-            return;
-        }
-        textMeshProUGUIs[index].text = count.ToString();
-    }
 
     public void DecreaseItemCount(int index)
     {
-        int count = Convert.ToInt32(textMeshProUGUIs[index].text) - 1;
-        if (count < 0) return;
-
-        SetItemCount(index, count);
+        var type = (ItemType)index;
+        GameManager.Instance.DecreaseItem(type, 1);
+        RefreshUI();
     }
 
     public void IncreaseItemCount(int index)
     {
-        int count = Convert.ToInt32(textMeshProUGUIs[index].text) + 1;
-        if (count < 0) return;
-
-        SetItemCount(index, count);
+        var type = (ItemType)index;
+        GameManager.Instance.IncreaseItem(type, 1);
+        RefreshUI();
     }
 }
+

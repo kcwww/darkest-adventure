@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4542797380604993496}
   - component: {fileID: 5866538997721273062}
   - component: {fileID: 3613720550932781862}
+  - component: {fileID: 4898078241447924640}
+  - component: {fileID: 2385562289486228942}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -49,7 +51,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionUI: {fileID: 5866538997721273062}
   activeInteractionUI: {fileID: 4542797380604993496}
+  objectUseUI: {fileID: 4898078241447924640}
+  eventTextUI: {fileID: 2385562289486228942}
   playerInput: {fileID: 0}
+  isWatching: 0
 --- !u!114 &4542797380604993496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 0}
+  text: {fileID: 0}
   appearDuration: 0.4
   slideOffset: 30
 --- !u!114 &5866538997721273062
@@ -99,3 +105,36 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &4898078241447924640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184966636702252819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e504c00726f7a114bb445ca5535e81ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  text: {fileID: 0}
+  appearDuration: 0.4
+  slideOffset: 30
+--- !u!114 &2385562289486228942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184966636702252819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca3c7517e36fb44781daebe7a77d1ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  eventText: {fileID: 0}
+  fadeDuration: 0.5
+  stayDuration: 1
+  moveOffset: 30

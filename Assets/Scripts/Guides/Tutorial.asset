@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700c68a522dacce478af297aa6ca16e6, type: 3}
   m_Name: Tutorial
   m_EditorClassIdentifier: 
-  prompt: "Press [E] (\uC77D\uAE30)"
+  prompt: 'Press [E]'
   message: "Tab \uD0A4\uB098 Select \uBC84\uD2BC\uC744 \uB20C\uB7EC \uC9C0\uB3C4
     <sprite name=Map> \uB97C \uD655\uC778 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\r\nDarkest
     Adventure \uB294 \uC544\uB798 4\uAC00\uC9C0 \uC544\uC774\uD15C\uC744 \uC0AC\uC6A9\uD574

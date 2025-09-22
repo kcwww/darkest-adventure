@@ -369,7 +369,7 @@ namespace PlayerCustomInput
                 out RaycastHit hit, interactRange, interactLayers))
             {
                 var interactable = hit.collider.GetComponent<InteractObject>();
-                Debug.Log(interactable.GetIsInteractable());
+                
                 if (interactable != null)
                 {
                     if (interactable.GetIsInteractable())

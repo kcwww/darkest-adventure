@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,22 +8,30 @@ public class GameManager : Singleton<GameManager>
 
     public int currentRoomId = 0;
 
-    // »ı¼ºµÈ ¸Ê µ¥ÀÌÅÍ (¾ÀÀÌ ¹Ù²î¾îµµ À¯Áö)
+    // ìƒì„±ëœ ë§µ ë°ì´í„° (ì”¬ì´ ë°”ë€Œì–´ë„ ìœ ì§€)
     public List<List<Room>> floors = new List<List<Room>>();
 
-    // GameManager.cs
     
+    public Dictionary<ItemType, int> itemInventory = new Dictionary<ItemType, int>();
+
 
     private void Start()
     {
 
-        // Ã³À½ ½ÇÇà ½Ã¿¡¸¸ ¸Ê »ı¼º
+        // ì²˜ìŒ ì‹¤í–‰ ì‹œì—ë§Œ ë§µ ìƒì„±
         if (floors.Count == 0)
         {
             var generator = new MapGenerator();
             generator.Generate();
             floors = generator.floors;
-            currentRoomId = floors[0][0].id; // ½ÃÀÛ ¹æ
+            currentRoomId = floors[0][0].id; // ì‹œì‘ ë°©
+        }
+
+        // ì•„ì´í…œ ì¸ë²¤í† ë¦¬ ì´ˆê¸°í™”
+        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
+        {
+            if (!itemInventory.ContainsKey(type))
+                itemInventory[type] = 0;
         }
     }
 
@@ -36,6 +44,8 @@ public class GameManager : Singleton<GameManager>
             SceneManager.LoadScene("SinglePathScene");
         else if (branchCount == 2)
             SceneManager.LoadScene("DoublePathScene");
+        else if (branchCount == 0)
+            SceneManager.LoadScene("Start"); // ë‚˜ì¤‘ì—ëŠ” End ì”¬ìœ¼ë¡œ
     }
 
     public void SliderValueChanged(float newValue)
@@ -52,7 +62,7 @@ public class GameManager : Singleton<GameManager>
             var generator = new MapGenerator();
             generator.Generate();
             floors = generator.floors;
-            currentRoomId = floors[0][0].id; // ½ÃÀÛ ¹æ
+            currentRoomId = floors[0][0].id; // ì‹œì‘ ë°©
         }
     }
 
@@ -79,7 +89,22 @@ public class GameManager : Singleton<GameManager>
                     return room;
             }
         }
-        return null; // ¸ø Ã£Àº °æ¿ì
+        return null; // ëª» ì°¾ì€ ê²½ìš°
+    }
+
+    public void IncreaseItem(ItemType type, int amount = 1)
+    {
+        itemInventory[type] += amount;
+    }
+
+    public void DecreaseItem(ItemType type, int amount = 1)
+    {
+        itemInventory[type] = Mathf.Max(0, itemInventory[type] - amount);
+    }
+
+    public int GetItemCount(ItemType type)
+    {
+        return itemInventory.TryGetValue(type, out var count) ? count : 0;
     }
 
 
