@@ -250,10 +250,10 @@ MonoBehaviour:
   InteractionObjectType: 1
   useItem: {fileID: 0}
   probability:
-  - 0.9
-  - 0.6
   - 0.7
+  - 0.4
   - 0.5
+  - 0.3
 --- !u!1 &5840786881128317632
 GameObject:
   m_ObjectHideFlags: 0

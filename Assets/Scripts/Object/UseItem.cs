@@ -88,7 +88,7 @@ public class UseItem : MonoBehaviour
 
     public string GiveRandomReward(ItemSlot itemSlot)
     {
-        int totalToGive = 2;
+        int totalToGive = Random.Range(1,3);
         int given = 0;
 
         // 보상 기록용
