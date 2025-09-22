@@ -1,12 +1,13 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 
 public class RoomUI : MonoBehaviour
 {
-    public Room roomData;  // µ¥ÀÌÅÍ ÂüÁ¶
+    public Room roomData;  // ë°ì´í„° ì°¸ì¡°
     [SerializeField] private Image background;
-    [SerializeField] private Outline outline;
+    public int RoomId => roomData.id;
+
 
     public void Init(Room data)
     {
@@ -16,19 +17,19 @@ public class RoomUI : MonoBehaviour
 
     public void SetNormal()
     {
-        background.color = Color.gray;
-        outline.enabled = false;
+        background.color = Color.white;
+        
     }
 
     public void SetCurrent()
     {
         background.color = Color.yellow;
-        outline.enabled = true;
+        
     }
 
     public void SetSelectable()
     {
         background.color = Color.green;
-        outline.enabled = true;
+        
     }
 }

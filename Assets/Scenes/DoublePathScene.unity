@@ -5010,10 +5010,6 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 262237484389774741, guid: 21a2c8b2b072c314a9d62a0f1865798a, type: 3}
-      propertyPath: triggers.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 262237484389774741, guid: 21a2c8b2b072c314a9d62a0f1865798a, type: 3}
       propertyPath: 'panels.Array.data[0]'
       value: 
       objectReference: {fileID: 1690649331}
@@ -5033,14 +5029,6 @@ PrefabInstance:
       propertyPath: 'panels.Array.data[4]'
       value: 
       objectReference: {fileID: 999891447}
-    - target: {fileID: 262237484389774741, guid: 21a2c8b2b072c314a9d62a0f1865798a, type: 3}
-      propertyPath: 'triggers.Array.data[0]'
-      value: 
-      objectReference: {fileID: 598476800}
-    - target: {fileID: 262237484389774741, guid: 21a2c8b2b072c314a9d62a0f1865798a, type: 3}
-      propertyPath: 'triggers.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1421840364}
     - target: {fileID: 5783774153296415275, guid: 21a2c8b2b072c314a9d62a0f1865798a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

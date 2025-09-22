@@ -38,14 +38,18 @@ public class MapGenerator : MonoBehaviour
                     else
                     {
                         // 3층 이상부터는 랜덤 재사용 허용
-                        if (Random.value < 0.5f)
+                        if (Random.value < 0.5f && floor.Count > 0)
+                        {
+                            // 같은 depth의 방만 재사용
                             next = floor[Random.Range(0, floor.Count)];
+                        }
                         else
                         {
                             next = new Room(depth, idCounter++);
                             floor.Add(next);
                         }
                     }
+
 
                     prev.connections.Add(next);
                 }

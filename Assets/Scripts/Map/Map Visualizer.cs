@@ -1,40 +1,45 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MapVisualizer : MonoBehaviour
 {
-    [SerializeField] private RectTransform[] panels; // √˛∫∞ Panel
+    [SerializeField] private RectTransform[] panels;
     [SerializeField] private GameObject roomPrefab;
     [SerializeField] private GameObject linePrefab;
     [SerializeField] private GameObject lines;
-    [SerializeField] private MapGenerator generator;
+
+    [SerializeField] private RoomTrigger[] triggers;
 
     public List<(int fromId, int toId, RectTransform from, RectTransform to)> connections
         = new List<(int, int, RectTransform, RectTransform)>();
 
+    private Dictionary<int, RoomUI> roomUIs = new Dictionary<int, RoomUI>();
+
     void Start()
     {
-        generator.Generate();
-        StartCoroutine(DrawAfterLayout(generator.floors));
+        GameManager.Instance.InitMap();
+        StartCoroutine(DrawAfterLayout(GameManager.Instance.floors));
     }
+
+
 
     private IEnumerator DrawAfterLayout(List<List<Room>> floors)
     {
-        // «— «¡∑π¿” ±‚¥Ÿ∑¡º≠ ∑π¿Ãæ∆øÙ ∞ËªÍ ≥°≥ª±‚
         yield return null;
-        // »§Ω√ ∏∏¶ UI µÙ∑π¿Ã πÊ¡ˆ °Ê ∞≠¡¶ ∞ªΩ≈
         Canvas.ForceUpdateCanvases();
-
         DrawMap(floors);
     }
 
     void DrawMap(List<List<Room>> floors)
     {
         connections.Clear();
+        roomUIs.Clear();
 
         Dictionary<int, RectTransform> roomObjects = new Dictionary<int, RectTransform>();
+
+        // Î™®Îì† RoomUI ÏÉùÏÑ± Î∞è Îß§Ìïë
         for (int depth = 0; depth < floors.Count; depth++)
         {
             var floor = floors[depth];
@@ -43,16 +48,20 @@ public class MapVisualizer : MonoBehaviour
                 GameObject go = Instantiate(roomPrefab, panels[depth]);
                 go.name = $"Room {room.id}";
                 var rt = go.GetComponent<RectTransform>();
+                var ui = go.GetComponent<RoomUI>();
+
+                ui.Init(room);
+
                 roomObjects[room.id] = rt;
+                roomUIs[room.id] = ui;
             }
         }
 
-        // ∑π¿Ãæ∆øÙ ∞≠¡¶ æ˜µ•¿Ã∆Æ
+        // Î†àÏù¥ÏïÑÏõÉ Í∞ïÏ†ú Í∞±Ïã†
         foreach (var panel in panels)
-        {
             LayoutRebuilder.ForceRebuildLayoutImmediate(panel);
-        }
 
+        // Ïó∞Í≤∞ Í¥ÄÍ≥Ñ Ï†ÄÏû•
         foreach (var floor in floors)
         {
             foreach (var room in floor)
@@ -65,31 +74,91 @@ public class MapVisualizer : MonoBehaviour
         }
 
         DrawLine();
+
+        // ÌòÑÏû¨ Î∞© ÌïòÏù¥ÎùºÏù¥Ìä∏
+        ApplyCurrentRoomHighlight(floors);
+        Room current = GameManager.Instance.GetCurrentRoom();
+        if (current != null)
+        {
+            HighlightCurrentAndSelectable(current); // Ïó¨Í∏∞ÏÑú Ìä∏Î¶¨Í±∞ÎèÑ Îã§Ïãú ÏÑ∏ÌåÖÎê®
+        }
+    }
+
+    private void ApplyCurrentRoomHighlight(List<List<Room>> floors)
+    {
+        Room targetRoom = FindRoomById(GameManager.Instance.currentRoomId, floors);
+        if (targetRoom != null)
+            HighlightCurrentAndSelectable(targetRoom);
+    }
+
+
+    private Room FindRoomById(int id, List<List<Room>> floors)
+    {
+        foreach (var floor in floors)
+            foreach (var room in floor)
+                if (room.id == id) return room;
+        return null;
     }
 
     public void DrawLine()
     {
-        if (connections.Count == 0) return;
+        if (connections.Count == 0 || lines == null) return;
 
-        foreach (var connection in connections)
+        for (int i = lines.transform.childCount - 1; i >= 0; i--)
+            Destroy(lines.transform.GetChild(i).gameObject);
+
+        var canvas = lines.GetComponentInParent<Canvas>();
+        var linesRT = (RectTransform)lines.transform;
+        Camera cam = null;
+        if (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            cam = canvas.worldCamera;
+
+        foreach (var c in connections)
         {
-            GameObject lineObj = Instantiate(linePrefab);
+            Vector2 fromLocal = WorldToLinesLocal(c.from, linesRT, cam);
+            Vector2 toLocal = WorldToLinesLocal(c.to, linesRT, cam);
 
-            Vector2 startPos = connection.from.position;
-            Vector2 endPos = connection.to.position;
+            Vector2 dir = toLocal - fromLocal;
+            float distance = dir.magnitude;
+            if (distance <= 0.01f) continue;
 
-            Vector2 midPoint = (startPos + endPos) * 0.5f;
-            Vector2 direction = endPos - startPos;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Vector2 mid = (fromLocal + toLocal) * 0.5f;
 
-            float distance = direction.magnitude;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
+            GameObject lineObj = Instantiate(linePrefab, linesRT, false);
             RectTransform lineRT = lineObj.GetComponent<RectTransform>();
-            lineRT.SetParent(lines.transform, false);
 
-            lineRT.position = midPoint;
-            lineRT.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            lineRT.anchoredPosition = mid;
+            lineRT.localRotation = Quaternion.Euler(0f, 0f, angle);
             lineRT.sizeDelta = new Vector2(distance, lineRT.sizeDelta.y);
         }
     }
+
+    private Vector2 WorldToLinesLocal(RectTransform target, RectTransform linesRT, Camera cam)
+    {
+        Vector2 screen = RectTransformUtility.WorldToScreenPoint(cam, target.position);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(linesRT, screen, cam, out var local);
+        return local;
+    }
+
+    public void HighlightCurrentAndSelectable(Room currentRoom)
+    {
+        
+
+        foreach (var ui in roomUIs.Values)
+            ui.SetNormal();
+
+        if (roomUIs.TryGetValue(currentRoom.id, out var currentUI))
+            currentUI.SetCurrent();
+
+        foreach (var next in currentRoom.connections)
+        {
+            if (roomUIs.TryGetValue(next.id, out var nextUI))
+                nextUI.SetSelectable();
+        }
+
+        foreach (var trigger in triggers)
+            trigger.UpdateNextRoom();
+    }
+
 }
